@@ -1,3 +1,4 @@
+/* Fonts are loaded in __root.tsx via <link> tags (Manrope, Playfair Display, Inter) */
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -6,6 +7,7 @@
 
 @theme inline {
   --font-serif: "Playfair Display", Georgia, serif;
+  --font-display: "Bodoni Moda", "Playfair Display", Georgia, serif;
   --font-sans: "Manrope", system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -78,6 +80,13 @@
     -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4 { font-family: var(--font-serif); letter-spacing: -0.01em; }
+}
+
+/* Hero title font. Defined as a real utility so it always wins over the h1 base rule. */
+@utility font-hero {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-optical-sizing: auto;
+  letter-spacing: -0.04em;
 }
 
 @utility eyebrow {
