@@ -1,186 +1,201 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
-import { campusLifeRail, destinations, events, img, stats } from "@/data/campus";
-import { Campus3D, CountUp, CTAButton, ImageCard, Reveal, SectionHeading } from "@/components/site/ui";
-import {
-  EventGrid,
-  FacilitiesGrid,
-  FindYourWay,
-  FoodSection,
-  InteractiveCampus,
-  StoryCards,
-  StudentHubSection,
-} from "@/components/site/sections";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { motion, useReducedMotion } from "motion/react";
+import { ArrowDown, ArrowUpRight, BookOpen, Cpu, GraduationCap, MoveUpRight } from "lucide-react";
+import { img } from "@/data/campus";
+import { CTAButton, Reveal, SectionHeading } from "@/components/site/ui";
+import { EventGrid, FacilitiesGrid, FindYourWay, FoodSection } from "@/components/site/sections";
 import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
   head: () =>
     seo(
-      "Your Campus, One Digital Experience",
-      "Explore your campus, discover facilities, follow events and experience student life — all from one place.",
+      "Francis Xavier Engineering College",
+      "Discover Francis Xavier Engineering College. Explore academic programs, campus life and the college in 360°.",
     ),
   component: Home,
 });
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
-function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const reduce = useReducedMotion();
-
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "20%"]);
-  const midY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "10%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "25%"]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
-
-  return (
-    <section ref={ref} className="relative h-[100svh] min-h-[640px] overflow-hidden bg-charcoal">
-      {/* Background photo */}
-      <motion.img
-        style={{ y: bgY }}
-        src={img.hero}
-        alt="Campus at golden hour"
-        width={1920}
-        height={1088}
-        fetchPriority="high"
-        className="absolute inset-0 h-[120%] w-full object-cover opacity-70"
-      />
-
-      {/* 3D layer — full-bleed and centred so it never pulls the composition off-axis */}
-      <motion.div
-        style={{ y: midY }}
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-30 mix-blend-screen"
-      >
-        <Campus3D />
-      </motion.div>
-
-      {/* Readability overlays */}
-      <div className="absolute inset-0 bg-charcoal/40" />
-      <div className="absolute inset-0 bg-gradient-to-b from-charcoal/40 via-transparent to-charcoal/80" />
-      <div className="shade absolute inset-0 opacity-60" />
-
-      {/* Centred content */}
-      <motion.div
-        style={{ y: textY, opacity: textOpacity }}
-        className="container-x relative z-10 mx-auto flex h-full max-w-6xl flex-col items-center justify-center px-5 text-center"
-      >
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15, duration: 0.7, ease }}
-          className="eyebrow mb-8 rounded-full border border-ink/20 bg-charcoal/40 px-5 py-2.5 backdrop-blur-md"
-        >
-          Welcome to Campus Life 360
-        </motion.p>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 36 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 1, ease }}
-          style={{ fontFamily: '"Inter", system-ui, sans-serif' }}
-          className="font-hero mx-auto text-balance text-5xl font-bold leading-[1.02] text-ink drop-shadow-[0_2px_24px_rgba(0,0,0,0.35)] sm:text-6xl md:text-7xl lg:text-8xl"
-        >
-          <span className="block">Your Campus.</span>
-          <span className="block text-gold">One Digital</span>
-          <span className="block">Experience.</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7, duration: 0.8 }}
-          className="mx-auto mt-8 max-w-xl text-balance text-base leading-relaxed text-ink/85 sm:text-lg"
-        >
-          Find facilities, follow events and get around campus — everything student life needs, in one place.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.7, ease }}
-          className="mt-10 flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row"
-        >
-          <CTAButton to="/explore">Explore Campus</CTAButton>
-          <CTAButton to="/campus-3d" variant="ghost">
-            Take a Virtual Tour
-          </CTAButton>
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll cue, centred at the bottom */}
-      
-    </section>
-  );
-}
+const programs = [
+  {
+    icon: Cpu,
+    title: "Computer Science",
+    description: "Turn ideas into software, systems and solutions for the real world.",
+  },
+  {
+    icon: BookOpen,
+    title: "Engineering",
+    description: "Build a strong foundation through hands-on learning and collaboration.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Student Experience",
+    description: "Find your community, grow your interests and make campus your own.",
+  },
+];
 
 function Home() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <>
-      <Hero />
+      <section className="relative flex min-h-[760px] h-[100svh] max-h-[1100px] items-center overflow-hidden bg-charcoal">
+        <motion.img
+          src={img.hero}
+          alt="Francis Xavier Engineering College campus"
+          fetchPriority="high"
+          className="absolute inset-0 h-full w-full object-cover"
+          initial={reduceMotion ? false : { scale: 1.08 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/55 to-charcoal/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-charcoal/25" />
 
-      {/* Campus at a glance */}
-      <section className="section-y">
-        <div className="container-x grid items-center gap-12 lg:grid-cols-[1fr_2fr]">
-          <Reveal>
-            <p className="eyebrow mb-4">Campus at a Glance</p>
-            <h2 className="text-balance text-4xl md:text-5xl">
-              A campus built
-              <br />
-              for curiosity.
-            </h2>
-          </Reveal>
-          <div className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-4">
-            {stats.map((s) => (
-              <div key={s.label} className="bg-background p-6 text-left sm:p-8">
-                <p className="font-serif text-4xl text-forest sm:text-5xl md:text-6xl">
-                  <CountUp to={s.value} suffix={s.suffix} />
-                </p>
-                <p className="mt-3 text-xs uppercase tracking-widest text-muted-foreground sm:text-sm">{s.label}</p>
-              </div>
-            ))}
-          </div>
+        <div className="container-x relative z-10 pb-16 pt-32 text-ink">
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="max-w-4xl"
+          >
+            <p className="eyebrow mb-6 flex items-center gap-3">
+              <span className="h-px w-9 bg-gold" />A future built together
+            </p>
+            <h1 className="font-hero text-balance text-5xl font-semibold leading-[1.03] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
+              Francis Xavier
+              <span className="mt-2 block text-gold">Engineering College</span>
+            </h1>
+            <p className="mt-7 max-w-xl text-balance text-base leading-relaxed text-ink/80 sm:text-lg">
+              A place to ask bigger questions, discover what you can do, and shape what comes next.
+            </p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <CTAButton to="/campus-3d">View College 360</CTAButton>
+              <CTAButton to="/departments" variant="ghost">
+                Explore academics
+              </CTAButton>
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.a
+          href="#discover"
+          aria-label="Scroll to discover the college"
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 0.8 }}
+          className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-ink/65 transition-colors hover:text-gold"
+        >
+          Discover
+          <ArrowDown className="h-4 w-4 animate-bounce" />
+        </motion.a>
+        <div className="absolute bottom-10 right-8 hidden items-center gap-3 text-xs uppercase tracking-[0.18em] text-ink/65 md:flex">
+          <span className="h-px w-10 bg-gold/70" />
+          Learn · Create · Lead
         </div>
       </section>
 
-      {/* Destinations */}
-      <section className="pb-28 md:pb-44">
+      <section id="discover" className="section-y">
+        <div className="container-x grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <Reveal>
+            <p className="eyebrow mb-5">Welcome to FXEC</p>
+            <h2 className="max-w-xl text-balance text-4xl leading-[1.08] md:text-6xl">
+              Your next chapter starts with a<span className="text-forest"> first step.</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <div className="flex flex-col gap-6 border-l border-gold pl-6 sm:pl-8">
+              <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
+                At Francis Xavier Engineering College, learning reaches beyond the classroom. Find
+                the people, ideas and experiences that help you turn your ambition into action.
+              </p>
+              <Link
+                to="/about"
+                className="group inline-flex w-fit items-center gap-2 text-sm font-bold text-forest transition-colors hover:text-charcoal"
+              >
+                Get to know the college
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="bg-[#f1f0e9] py-24 md:py-32">
         <div className="container-x">
-          <SectionHeading eyebrow="Explore Campus" title="Everything Around You." />
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {destinations.map((d, i) => (
-              <Reveal key={d.title} delay={(i % 3) * 0.08} className={i % 3 === 1 ? "lg:translate-y-12" : ""}>
-                <ImageCard image={d.image} title={d.title} text={d.text} tall={i % 2 === 0} />
+          <SectionHeading
+            eyebrow="Find your direction"
+            title={
+              <>
+                Curiosity is a great place
+                <br className="hidden sm:block" /> to start.
+              </>
+            }
+            text="Explore the learning, people and possibilities that make your college experience your own."
+          />
+          <div className="grid gap-4 md:grid-cols-3">
+            {programs.map(({ icon: Icon, title, description }, index) => (
+              <Reveal key={title} delay={index * 0.1}>
+                <Link
+                  to={index === 2 ? "/student-hub" : "/departments"}
+                  className="group flex h-full min-h-64 flex-col rounded-2xl border border-foreground/10 bg-background p-7 transition-all duration-500 hover:-translate-y-2 hover:border-gold/70 hover:shadow-[0_24px_70px_-35px_rgba(27,54,41,0.35)] sm:p-8"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="grid h-12 w-12 place-items-center rounded-full bg-forest/10 text-forest transition-colors duration-300 group-hover:bg-forest group-hover:text-ink">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <MoveUpRight className="h-5 w-5 text-foreground/35 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-forest" />
+                  </div>
+                  <div className="mt-auto pt-12">
+                    <h3 className="font-sans text-xl font-bold tracking-tight">{title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      {description}
+                    </p>
+                  </div>
+                </Link>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <InteractiveCampus />
-      <StudentHubSection />
-
-      {/* Campus life rail */}
-      <section className="section-y overflow-hidden bg-charcoal">
+      <section className="section-y">
         <div className="container-x">
-          <SectionHeading light eyebrow="Campus Life" title="Life, in full frame." />
-        </div>
-        <div className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth px-[clamp(1.25rem,4vw,3rem)] pb-4">
-          {campusLifeRail.map((c, i) => (
-            <div key={i} className="w-[80vw] shrink-0 snap-start md:w-[38vw] lg:w-[30vw]">
-              <ImageCard image={c.image} title={c.title} tall={i % 2 === 1} />
+          <div className="mb-12 flex flex-col justify-between gap-6 md:mb-16 md:flex-row md:items-end">
+            <div className="max-w-2xl">
+              <Reveal>
+                <p className="eyebrow mb-5">Campus facilities</p>
+                <h2 className="text-balance text-4xl leading-[1.05] md:text-6xl">
+                  Spaces that work as hard as you do.
+                </h2>
+                <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
+                  Find the places to learn, recharge and make the most of your time on campus.
+                </p>
+              </Reveal>
             </div>
-          ))}
+            <Link
+              to="/facilities"
+              className="group inline-flex w-fit items-center gap-2 text-sm font-bold text-forest transition-colors hover:text-charcoal"
+            >
+              Explore all facilities
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+          <FacilitiesGrid />
         </div>
       </section>
 
-      {/* Events */}
+      <FindYourWay />
+
+      <FoodSection />
+
       <section className="section-y">
         <div className="container-x">
-          <SectionHeading eyebrow="Events" title="What's Happening On Campus?" />
-          <EventGrid items={events.slice(0, 3)} />
+          <SectionHeading
+            eyebrow="Events"
+            title="What's happening on campus?"
+            text="From new ideas to shared celebrations, there is always something bringing campus together."
+          />
+          <EventGrid />
           <div className="mt-12 flex justify-center">
             <CTAButton to="/events" variant="dark">
               All events
@@ -189,42 +204,26 @@ function Home() {
         </div>
       </section>
 
-      <FoodSection />
-
-      {/* Facilities */}
-      <section className="section-y">
-        <div className="container-x">
-          <SectionHeading eyebrow="Campus Facilities" title="Spaces that work as hard as you do." />
-          <FacilitiesGrid />
-        </div>
-      </section>
-
-      <FindYourWay />
-
-      {/* Stories */}
-      <section className="section-y">
-        <div className="container-x">
-          <SectionHeading eyebrow="Campus Stories" title="Life Beyond The Classroom" />
-          <StoryCards />
-        </div>
-      </section>
-
-      {/* Closing call to action */}
-      <section className="relative flex min-h-[80vh] items-center overflow-hidden bg-charcoal">
-        <img src={img.sports} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-60" />
-        <div className="shade absolute inset-0" />
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-transparent to-charcoal/40" />
-        <div className="container-x relative text-center">
+      <section className="relative isolate overflow-hidden bg-forest py-24 text-ink md:py-36">
+        <img
+          src={img.auditorium}
+          alt=""
+          loading="lazy"
+          className="absolute inset-0 -z-10 h-full w-full object-cover opacity-20 mix-blend-luminosity"
+        />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-forest via-forest/95 to-forest/65" />
+        <div className="container-x grid gap-10 md:grid-cols-[1fr_auto] md:items-end">
           <Reveal>
-            <h2 className="mx-auto max-w-4xl text-balance text-5xl leading-[1.05] text-ink md:text-7xl">
-              There Is More To Your Campus Than You Think.
+            <p className="eyebrow mb-5">See it for yourself</p>
+            <h2 className="max-w-3xl text-balance text-4xl leading-[1.05] md:text-6xl">
+              Take a closer look at your future campus.
             </h2>
-            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <CTAButton to="/explore">Explore Campus</CTAButton>
-              <CTAButton to="/campus-3d" variant="ghost">
-                Take a Virtual Tour
-              </CTAButton>
-            </div>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-ink/70">
+              Step into the college with an interactive 360° campus experience.
+            </p>
+          </Reveal>
+          <Reveal delay={0.12} className="md:pb-1">
+            <CTAButton to="/campus-3d">View College 360</CTAButton>
           </Reveal>
         </div>
       </section>

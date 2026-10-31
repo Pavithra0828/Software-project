@@ -7,8 +7,11 @@ import { cn } from "@/lib/utils";
 
 function Logo({ dark }: { dark?: boolean }) {
   return (
-    <Link to="/" className={cn("font-serif text-lg font-bold leading-[0.9] tracking-wide", dark ? "text-foreground" : "text-ink")}>
-      CAMPUSLIFE<br /><span className="text-gold">360</span>
+    <Link to="/" aria-label="Francis Xavier Engineering College home" className={cn("flex items-center gap-3", dark ? "text-foreground" : "text-ink")}>
+      <span className="grid h-10 w-10 place-items-center rounded-full border border-gold/70 font-serif text-lg font-bold text-gold">FX</span>
+      <span className="text-[10px] font-bold uppercase leading-[1.35] tracking-[0.12em] sm:text-xs">
+        Francis Xavier<br />Engineering College
+      </span>
     </Link>
   );
 }
@@ -92,7 +95,7 @@ export function SiteFooter() {
       <div className="container-x grid gap-12 py-20 md:grid-cols-4">
         <div className="md:col-span-2">
           <Logo />
-          <p className="mt-6 max-w-sm text-ink/60">One digital experience for everything on your campus — places, people, events and resources.</p>
+          <p className="mt-6 max-w-sm text-ink/60">Discover the people, places and possibilities at Francis Xavier Engineering College.</p>
         </div>
         <div>
           <p className="eyebrow mb-4">Explore</p>
@@ -107,7 +110,7 @@ export function SiteFooter() {
           </ul>
         </div>
       </div>
-      <div className="container-x border-t border-ink/10 py-6 text-xs text-ink/40">© 2026 CampusLife 360 · Sample campus content for demonstration.</div>
+      <div className="container-x border-t border-ink/10 py-6 text-xs text-ink/40">© 2026 Francis Xavier Engineering College</div>
     </footer>
   );
 }

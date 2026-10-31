@@ -101,6 +101,10 @@
 @utility container-x { width: 100%; max-width: 88rem; margin-inline: auto; padding-inline: clamp(1.25rem, 4vw, 3rem); }
 @utility section-y { padding-block: clamp(5rem, 10vw, 9rem); }
 @utility no-scrollbar { scrollbar-width: none; &::-webkit-scrollbar { display: none; } }
-@utility draw-path { stroke-dasharray: 600; stroke-dashoffset: 600; animation: draw 3s ease forwards infinite; }
+@utility draw-path { stroke-dasharray: 600; stroke-dashoffset: 600; animation: draw 3s ease forwards; }
 
 @keyframes draw { 0% { stroke-dashoffset: 600; } 60%,100% { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .draw-path { animation: none; stroke-dashoffset: 0; }
+}

@@ -79,8 +79,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "CampusLife 360" },
-      { name: "description", content: "Your campus, one digital experience." },
+      { title: "Francis Xavier Engineering College" },
+      { name: "description", content: "Discover Francis Xavier Engineering College, campus life and an interactive 360° tour." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

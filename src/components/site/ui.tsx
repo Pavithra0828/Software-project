@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState, type ReactNode } from "react";
-import { motion, useInView, useMotionValue, useSpring, animate } from "motion/react";
+import { motion, useInView, useMotionValue, useSpring, animate, useReducedMotion } from "motion/react";
 import { ClientOnly, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -18,13 +18,14 @@ export function Campus3D(props: { interactive?: boolean; selected?: string | nul
 }
 
 export function Reveal({ children, delay = 0, className }: { children: ReactNode; delay?: number; className?: string }) {
+  const reduceMotion = useReducedMotion();
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 32 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reduceMotion ? 0 : 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
